@@ -1,5 +1,5 @@
 const clientId = '6eea24655dee4b7380367bb3deb15ab1';
-const redirectUri = "http://localhost:3000/";
+const redirectUri = 'http://localhost:3000/';
 let accessToken;
 
 const Spotify = {
@@ -21,7 +21,7 @@ const Spotify = {
       window.history.pushState('Access Token', null, '/');
       return accessToken;
     } else {
-      const accessUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=token&scope=playlist-modify-public&redirect_uri=${redirectUri}`
+      const accessUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=token&scope=playlist-modify-public&redirect_uri=${redirectUri}`;
       window.location = accessUrl;
     }
   },
@@ -42,13 +42,13 @@ const Spotify = {
         id: track.id,
         name: track.name,
         artist: track.artists[0].name,
-        album: rack.album.name,
+        album: track.album.name,
         uri: track.uri
       }));
     });
   },
 
-  savePlayList(name, trackUris) {
+  savePlaylist(name, trackUris) {
     if (!name || !trackUris.length) {
       return;
     }
@@ -66,14 +66,14 @@ const Spotify = {
           headers: headers,
           method: 'POST',
           body: JSON.stringify({ name: name })
-        }).then(responde => response.json()
+        }).then(response => response.json()
         ).then(jsonResponse => {
           const playlistId = jsonResponse.id;
-          return fetch(`/v1/users/${userId}/playlists/${playlistId}/tracks`, {
+          return fetch(
+            `https://api.spotify.com/v1/users/${userId}/playlists/${playlistId}/tracks`, {
             headers: headers,
             method: 'POST',
-            body: JSON.stringify({ uri: trackUris })
-
+            body: JSON.stringify({ uris: trackUris })
           })
         })
     })
