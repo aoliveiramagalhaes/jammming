@@ -1,5 +1,5 @@
 const clientId = '6eea24655dee4b7380367bb3deb15ab1';
-const redirectUri = 'http://localhost:3000/';
+const redirectUri = 'http://jammming-aline.surge.sh';
 let accessToken;
 
 const Spotify = {
